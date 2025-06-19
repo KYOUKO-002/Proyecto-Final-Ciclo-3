@@ -1,2 +1,7 @@
+import procesos.principal as principal
+
 def main():
-    pass
+    principal.configuracion_inicial_web()
+
+
+main()
