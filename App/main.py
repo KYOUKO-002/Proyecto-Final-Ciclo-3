@@ -6,8 +6,4 @@ def main():
     cmp.actualizar_pagina(pagina)
 
 
-#main()
-
-import modulos.procesos.notas as notas
-
-notas.cargar_estudiantes()
+main()

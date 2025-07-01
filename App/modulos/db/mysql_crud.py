@@ -1,21 +1,45 @@
+from modulos.db.conexion import cliente_mysql
+from modulos.db.modelos import Estudiante
+
 # ============================ ESTUDIANTE ============================
-import modulos.db.conexion as db
+def crear_estudiante(estudiante: Estudiante):
+    cliente = cliente_mysql()
+    
+    try:
+        cursor = cliente.cursor()
+        sql = "INSERT INTO estudiante (identificacion, nombres_estudiante) VALUES (%s, %s)"
+        cursor.execute(sql, (estudiante.identificacion, estudiante.nombres))
+        cliente.commit()
 
+        estudiante.id = cursor.lastrowid
+        return estudiante
 
-def crear_estudiante(estudiante):
-    cliente = db.cliente_mysql()
+    except Exception as e:
+        print(f"Error al crear el estudiante: {e}")
+        cliente.rollback()
+        return None
+
+    finally:
+        if 'cursor' in locals(): cursor.close()
+        if cliente: cliente.close()
+
 
 
 def existe_estudiante_por_identificacion(identificacion):
-    cliente = db.cliente_mysql()
-
-    cursor = cliente.cursor()
-    query = "SELECT 1 FROM estudiante WHERE identificacion = %s LIMIT 1"
-    cursor.execute(query, (identificacion,))
+    cliente = cliente_mysql()
     
-    resultado = cursor.fetchone()
+    try:
+        
+        cursor = cliente.cursor()
+        sql = "SELECT 1 FROM estudiante WHERE identificacion = %s LIMIT 1"
+        cursor.execute(sql, (identificacion,))
+        resultado = cursor.fetchone()
+        return resultado is not None
 
-    cursor.close()
-    cliente.close()
+    except Exception as e:
+        print(f"Error al verificar existencia del estudiante: {e}")
+        return False
 
-    return resultado is not None
+    finally:
+        if 'cursor' in locals(): cursor.close()
+        if cliente: cliente.close()

@@ -1,6 +1,7 @@
 import streamlit as st
 
-import modulos.vistas.home as vista_home
+from modulos.vistas.home import vista_home
+from modulos.vistas.migracion_datos import vista_migracion_datos
 
 def configurar_pagina():
     st.set_page_config(
@@ -37,10 +38,10 @@ def menu_principal():
 
 def actualizar_pagina(pagina):
     if pagina == "🏠 Home":
-        vista_home.cargar_contenido()
+        vista_home()
 
     elif pagina == "📂 Cargar Datos":
-        st.write("Aquí puedes cargar tus archivos CSV.")
+        vista_migracion_datos()
 
     elif pagina == "📊 Estadísticas":
         st.write("Estadísticas descriptivas de los datos.")

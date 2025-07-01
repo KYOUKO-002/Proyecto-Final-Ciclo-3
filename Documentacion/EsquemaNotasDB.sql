@@ -72,8 +72,8 @@ CREATE TABLE notas (
     nota_final DECIMAL(5,2),
     id_estudiante INT,
     id_asignatura INT,
-    periodo VARCHAR(20),
-    paralelo VARCHAR(10),
+    id_periodo INT,
     FOREIGN KEY (id_estudiante) REFERENCES estudiante(id_estudiante),
-    FOREIGN KEY (id_asignatura) REFERENCES asignatura(id_asignatura)
+    FOREIGN KEY (id_asignatura) REFERENCES asignatura(id_asignatura),
+    FOREIGN KEY (id_periodo) REFERENCES periodo(id_periodo)
 );

@@ -1,7 +1,7 @@
 from PIL import Image
 import streamlit as st
 
-def cargar_contenido():
+def vista_home():
     imagen = Image.open("./././img/logo_tec.png")
     col1, col2, col3 = st.columns([1, 15, 1])
 

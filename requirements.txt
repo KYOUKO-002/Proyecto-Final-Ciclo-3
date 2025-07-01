@@ -1,0 +1,6 @@
+streamlit>=1.25
+mysql-connector-python
+python-dotenv
+pandas
+openpyxl
+xlrd
