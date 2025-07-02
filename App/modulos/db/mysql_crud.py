@@ -102,3 +102,137 @@ def obtener_todas_las_cedulas_docentes():
         if cliente: cliente.close()
 
 
+# ============================ ASIGNATURA ============================
+
+def insertar_asignaturas_en_lote(asignaturas: list):
+    if not asignaturas:
+        return
+
+    cliente = cliente_mysql()
+    try:
+        cursor = cliente.cursor()
+        sql = """
+            INSERT IGNORE INTO asignatura (nombre_asignatura, nivel, id_carrera)
+            VALUES (%s, %s, %s)
+        """
+        cursor.executemany(sql, asignaturas)
+        cliente.commit()
+    except Exception as e:
+        print(f"Error al insertar asignaturas en lote: {e}")
+        cliente.rollback()
+    finally:
+        if 'cursor' in locals(): cursor.close()
+        if cliente: cliente.close()
+
+
+def obtener_todas_las_asignaturas():
+    cliente = cliente_mysql()
+    try:
+        cursor = cliente.cursor()
+        cursor.execute("SELECT nombre_asignatura FROM asignatura")
+        return set(row[0] for row in cursor.fetchall())
+    except Exception as e:
+        print(f"Error al obtener asignaturas: {e}")
+        return set()
+    finally:
+        if 'cursor' in locals(): cursor.close()
+        if cliente: cliente.close()
+
+
+# ============================ MATRICULA ============================
+
+def insertar_matriculas_en_lote(matriculas: list):
+    if not matriculas:
+        return
+
+    cliente = cliente_mysql()
+    try:
+        cursor = cliente.cursor()
+        sql = """
+            INSERT IGNORE INTO matricula (id_estudiante, id_periodo, estado_matricula, tipo_ingreso)
+            VALUES (%s, %s, %s, %s)
+        """
+        cursor.executemany(sql, matriculas)
+        cliente.commit()
+    except Exception as e:
+        print(f"Error al insertar matrículas en lote: {e}")
+        cliente.rollback()
+    finally:
+        if 'cursor' in locals(): cursor.close()
+        if cliente: cliente.close()
+
+
+def obtener_todas_las_matriculas():
+    cliente = cliente_mysql()
+    try:
+        cursor = cliente.cursor()
+        cursor.execute("SELECT id_estudiante, id_periodo FROM matricula")
+        return set((row[0], row[1]) for row in cursor.fetchall())
+    except Exception as e:
+        print(f"Error al obtener matrículas: {e}")
+        return set()
+    finally:
+        if 'cursor' in locals(): cursor.close()
+        if cliente: cliente.close()
+
+    
+    # ============================ DETALLE_MATRICULA ============================
+
+    def insertar_detalles_matricula_en_lote(detalles: list):
+    if not detalles:
+        return
+
+    cliente = cliente_mysql()
+    try:
+        cursor = cliente.cursor()
+        sql = """
+            INSERT IGNORE INTO detalle_matricula (
+                id_matricula,
+                id_asignatura,
+                id_docente,
+                asistencia,
+                nota_final,
+                estado_academico
+            )
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """
+        cursor.executemany(sql, detalles)
+        cliente.commit()
+    except Exception as e:
+        print(f"Error al insertar detalle_matricula en lote: {e}")
+        cliente.rollback()
+    finally:
+        if 'cursor' in locals(): cursor.close()
+        if cliente: cliente.close()
+
+
+# ============================ NOTAS ============================
+
+def insertar_notas_en_lote(notas: list):
+    if not notas:
+        return
+
+    cliente = cliente_mysql()
+    try:
+        cursor = cliente.cursor()
+        sql = """
+            INSERT IGNORE INTO notas (
+                asistencia,
+                nota_final,
+                id_estudiante,
+                id_asignatura,
+                id_periodo
+            )
+            VALUES (%s, %s, %s, %s, %s)
+        """
+        cursor.executemany(sql, notas)
+        cliente.commit()
+    except Exception as e:
+        print(f"Error al insertar notas en lote: {e}")
+        cliente.rollback()
+    finally:
+        if 'cursor' in locals(): cursor.close()
+        if cliente: cliente.close()
+
+
+
