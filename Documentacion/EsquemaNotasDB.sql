@@ -12,7 +12,7 @@ CREATE TABLE estudiante (
 -- Tabla: carrera
 CREATE TABLE carrera (
     id_carrera INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_carrera VARCHAR(100) NOT NULL UNIQUE
+    nombre_carrera VARCHAR(100) NOT NULL
 );
 
 -- Tabla: docente
