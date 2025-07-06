@@ -1,5 +1,5 @@
-Documentacion/Data/
-App/modulos/db/.env
+App/data/
+App/modulos/.env
 
 **/__pycache__/
 *.pyc
