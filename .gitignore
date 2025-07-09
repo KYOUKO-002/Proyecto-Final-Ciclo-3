@@ -1,5 +1,5 @@
 App/data/
-App/modulos/.env
+App/modulos/db_credenciales.env
 
 **/__pycache__/
 *.pyc

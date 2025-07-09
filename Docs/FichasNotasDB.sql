@@ -1,12 +1,13 @@
 -- Crear base de datos
-CREATE DATABASE IF NOT EXISTS prediccion_academica CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE prediccion_academica;
+DROP DATABASE IF EXISTS FichasNotasDB;
+CREATE DATABASE IF NOT EXISTS FichasNotasDB CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE FichasNotasDB;
 
 
 -- Tabla: Estudiante
 CREATE TABLE estudiante (
     id_estudiante INT AUTO_INCREMENT PRIMARY KEY,
-    ci_pasaporte VARCHAR(20),
+    ci_pasaporte VARCHAR(20) UNIQUE,
     correo_tec VARCHAR(100),
     nombres VARCHAR(100),
     sexo VARCHAR(10),
@@ -15,7 +16,7 @@ CREATE TABLE estudiante (
     num_hijos INT,
     etnia VARCHAR(50),
     fecha_nacimiento DATE,
-    tipo_parroqui VARCHAR(50),
+    tipo_parroquia VARCHAR(50),
     ciudad VARCHAR(50),
     provincia VARCHAR(50),
     pais VARCHAR(50),
@@ -30,19 +31,20 @@ CREATE TABLE estudiante (
 -- Tabla: Carrera
 CREATE TABLE carrera (
     id_carrera INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_carrera VARCHAR(100)
+    nombre_carrera VARCHAR(200) UNIQUE
 );
 
 -- Tabla: EstudianteCarrera
+DROP TABLE estudiante_carrera;
 CREATE TABLE estudiante_carrera (
-    id_estudiante_carrera INT AUTO_INCREMENT PRIMARY KEY,
     id_carrera INT,
     id_estudiante INT,
     ciclo_carrera VARCHAR(20),
     razon_eleccion_carrera TEXT,
     razon_eleccion_instituto TEXT,
     periodo_academico VARCHAR(20),
-    paralelo VARCHAR(10),
+    paralelo VARCHAR(11),
+    PRIMARY KEY (id_carrera, id_estudiante, periodo_academico),
     FOREIGN KEY (id_carrera) REFERENCES carrera(id_carrera),
     FOREIGN KEY (id_estudiante) REFERENCES estudiante(id_estudiante)
 );
