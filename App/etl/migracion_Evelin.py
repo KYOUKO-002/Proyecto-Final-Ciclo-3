@@ -25,9 +25,7 @@ def migrar_colegios(df_colegios):
         nombre_colegio,
         tipo_colegio,
         titulo_bachiller,
-        anio_graduacion
-    
-            
+        anio_graduacion 
         ) VALUES (
             %s, %s, %s, %s, %s
         )
@@ -47,8 +45,8 @@ def main():
     df_fichas, df_notas = cargar_data()
 
     # MIGRACIÓN DE COLEGIOS ---------------------------
-    df_colegios= df_fichas [[ 'ci_pasaporte', 'colegio','tipo_colegio', 'titulo_bachiller','anio_graduacion'  ]]
-    df_colegios =  df_colegios.rename(columns={"colegio":"nombre_colegio"} )
+    """f_colegios= df_fichas [[ 'ci_pasaporte', 'colegio','tipo_colegio', 'titulo_bachiller','anio_graduacion'  ]]
+    df_colegios =  df_colegios.rename(columns={"colegio":"nombre_colegio"} )"""
 
     try:
         cliente = cliente_mysql()
@@ -63,12 +61,16 @@ def main():
 
     
 
-        df_colegios['id_estudiante'] = df_colegios['ci_pasaporte'].map(dic_id_estudiante)
+        """df_colegios['id_estudiante'] = df_colegios['ci_pasaporte'].map(dic_id_estudiante)
 
         
 
-        df_colegios = df_estudiantes_carreras.drop(columns=['ci_pasaporte'])
-        migrar_colegios(df_colegios)
+        df_colegios = df_colegios.drop(columns=['ci_pasaporte'])
+        df_colegios = df_colegios.dropna(subset=['id_estudiante'])
+        df_colegios.id_estudiante = df_colegios.id_estudiante.astype(int)
+        print(df_colegios.sample(5))
+        print(df_colegios.shape)
+        migrar_colegios(df_colegios)"""
 
 
     finally:

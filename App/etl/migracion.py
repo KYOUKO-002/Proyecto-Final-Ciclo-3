@@ -152,14 +152,14 @@ def preprocesar_df_estudiantes_carreras(df_fichas, df_notas):
 def main():
     df_fichas, df_notas = cargar_data()
 
-    # MIGRACIÓN DE ESTUDIANTES ---------------------------
+    # MIGRACIÓN DE ESTUDIANTES ------------------------------------
     """df_estudiantes = df_fichas[['ci_pasaporte', 'correo_tec', 'nombres', 'sexo','genero','estado_civil','num_hijos',
                          'etnia','fecha_nacimiento','tipo_parroquia', 'ciudad','prov','pais','celular', 'tiene_beca',
                          'estudio_otra_carrera', 'ocupacion_estudiante', 'persona_cubre_gastos', 'recibe_ayuda']]
     df_estudiantes.rename(columns={'prov': 'provincia'}, inplace=True)
     migrar_estudiantes(df_estudiantes)
 
-    # MIGRACIÓN DE CARRERAS ---------------------------
+    # MIGRACIÓN DE CARRERAS ---------------------------------------
     df_carreras = df_fichas[['nombre_carrera']]
     migrar_carreras(df_carreras)
 
@@ -167,6 +167,7 @@ def main():
     df_estudiantes_carreras = preprocesar_df_estudiantes_carreras(df_fichas, df_notas)
     migrar_estudiantes_carreras(df_estudiantes_carreras)"""
 
+    # MIGRACIÓN DE ESTUDIANTES_CARRERAS ---------------------------
     
 
     
