@@ -1,5 +1,5 @@
 -- Crear base de datos
-DROP DATABASE IF EXISTS FichasNotasDB
+DROP DATABASE IF EXISTS FichasNotasDB;
 CREATE DATABASE IF NOT EXISTS FichasNotasDB CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE FichasNotasDB;
 
@@ -10,7 +10,7 @@ CREATE TABLE estudiante (
     ci_pasaporte VARCHAR(20) UNIQUE,
     correo_tec VARCHAR(100),
     nombres VARCHAR(100),
-    sexo VARCHAR(10),
+    sexo VARCHAR(11),
     genero VARCHAR(20),
     estado_civil VARCHAR(30),
     num_hijos INT,
@@ -32,7 +32,7 @@ CREATE TABLE estudiante (
 CREATE TABLE carrera (
     id_carrera INT AUTO_INCREMENT PRIMARY KEY,
     codigo VARCHAR(50) UNIQUE,
-    nombre_carrera VARCHAR(100)
+    nombre_carrera VARCHAR(200)
 );
 
 -- Tabla: EstudianteCarrera
@@ -44,7 +44,7 @@ CREATE TABLE estudiante_carrera (
     razon_eleccion_carrera TEXT,
     razon_eleccion_instituto TEXT,
     periodo_academico VARCHAR(20),
-    paralelo VARCHAR(10),
+    paralelo VARCHAR(11),
     FOREIGN KEY (id_carrera) REFERENCES carrera(id_carrera),
     FOREIGN KEY (id_estudiante) REFERENCES estudiante(id_estudiante)
 );
@@ -56,7 +56,7 @@ CREATE TABLE colegio_graduacion (
     nombre_colegio VARCHAR(100),
     tipo_colegio VARCHAR(50),
     titulo_bachiller VARCHAR(50),
-    anio_graduacion YEAR,
+    anio_graduacion INT,
     FOREIGN KEY (id_estudiante) REFERENCES estudiante(id_estudiante)
 );
 
@@ -93,12 +93,12 @@ CREATE TABLE contacto_emergencia (
 CREATE TABLE datos_salud (
     id_datos_salud INT AUTO_INCREMENT PRIMARY KEY,
     id_estudiante INT,
-    tipo_sangre VARCHAR(5),
+    tipo_sangre VARCHAR(11),
     semanas_embarazo INT,
     porcentaje_discapacidad DECIMAL(5,2),
     nombre_discapacidad VARCHAR(100),
     nombre_enfermedades TEXT,
-    vacuna_covid BOOLEAN,
+    vacuna_covid VARCHAR(70),
     antecedentes_patologicos_fam TEXT,
     FOREIGN KEY (id_estudiante) REFERENCES estudiante(id_estudiante)
 );
@@ -107,9 +107,9 @@ CREATE TABLE datos_salud (
 CREATE TABLE familia (
     id_familia INT AUTO_INCREMENT PRIMARY KEY,
     id_estudiante INT,
-    integrantes_familia INT,
-    integrantes_aporte_economico INT,
-    cabezas_familia INT,
+    integrantes_familia TEXT,
+    integrantes_aporte_economico TEXT,
+    cabezas_familia TEXT,
     FOREIGN KEY (id_estudiante) REFERENCES estudiante(id_estudiante)
 );
 
@@ -117,8 +117,8 @@ CREATE TABLE familia (
 CREATE TABLE vivienda (
     id_vivienda INT AUTO_INCREMENT PRIMARY KEY,
     id_estudiante INT,
-    tipo_vivienda VARCHAR(50),
-    estructura_vivienda VARCHAR(50),
+    tipo_vivienda VARCHAR(100),
+    estructura_vivienda VARCHAR(100),
     servicios_vivienda TEXT,
     FOREIGN KEY (id_estudiante) REFERENCES estudiante(id_estudiante)
 );
