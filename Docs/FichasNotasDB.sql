@@ -1,5 +1,5 @@
 -- Crear base de datos
-DROP DATABASE IF EXISTS FichasNotasDB;
+DROP DATABASE IF EXISTS FichasNotasDB
 CREATE DATABASE IF NOT EXISTS FichasNotasDB CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE FichasNotasDB;
 
@@ -16,7 +16,7 @@ CREATE TABLE estudiante (
     num_hijos INT,
     etnia VARCHAR(50),
     fecha_nacimiento DATE,
-    tipo_parroquia VARCHAR(50),
+    tipo_parroqui VARCHAR(50),
     ciudad VARCHAR(50),
     provincia VARCHAR(50),
     pais VARCHAR(50),
@@ -31,41 +31,25 @@ CREATE TABLE estudiante (
 -- Tabla: Carrera
 CREATE TABLE carrera (
     id_carrera INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_carrera VARCHAR(200) UNIQUE
+    codigo VARCHAR(50) UNIQUE,
+    nombre_carrera VARCHAR(100)
 );
 
 -- Tabla: EstudianteCarrera
-DROP TABLE estudiante_carrera;
-CREATE TABLE estudiante_carrera_backup AS SELECT * FROM estudiante_carrera;
-
--- 1. Agregar la nueva columna auto-incrementable
-ALTER TABLE estudiante_carrera
-ADD COLUMN id_estudiante_carrera INT FIRST;
-
--- 2. Eliminar la clave primaria compuesta
-ALTER TABLE estudiante_carrera
-DROP PRIMARY KEY;
-
--- 3. Establecer la nueva clave primaria.
-ALTER TABLE estudiante_carrera
-MODIFY COLUMN id_estudiante_carrera INT NOT NULL AUTO_INCREMENT,
-ADD PRIMARY KEY (id_estudiante_carrera);
-
 CREATE TABLE estudiante_carrera (
+    id_estudiante_carrera INT AUTO_INCREMENT PRIMARY KEY,
     id_carrera INT,
     id_estudiante INT,
     ciclo_carrera VARCHAR(20),
     razon_eleccion_carrera TEXT,
     razon_eleccion_instituto TEXT,
     periodo_academico VARCHAR(20),
-    paralelo VARCHAR(11),
-    PRIMARY KEY (id_carrera, id_estudiante, periodo_academico),
+    paralelo VARCHAR(10),
     FOREIGN KEY (id_carrera) REFERENCES carrera(id_carrera),
     FOREIGN KEY (id_estudiante) REFERENCES estudiante(id_estudiante)
 );
 
 -- Tabla: ColegioGraduacion
-DROP TABLE colegio_graduacion;
 CREATE TABLE colegio_graduacion (
     id_colegio INT AUTO_INCREMENT PRIMARY KEY,
     id_estudiante INT UNIQUE,
