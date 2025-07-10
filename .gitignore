@@ -1,5 +1,4 @@
-App/data/
-App/modulos/db_credenciales.env
+Modulos/data/
 
 **/__pycache__/
 *.pyc

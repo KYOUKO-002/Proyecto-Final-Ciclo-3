@@ -118,7 +118,7 @@ CREATE TABLE vivienda (
     id_vivienda INT AUTO_INCREMENT PRIMARY KEY,
     id_estudiante INT,
     tipo_vivienda VARCHAR(100),
-    estructura_vivienda VARCHAR(100),
+    condicion_vivienda VARCHAR(100),
     servicios_vivienda TEXT,
     FOREIGN KEY (id_estudiante) REFERENCES estudiante(id_estudiante)
 );
