@@ -38,13 +38,19 @@ CREATE TABLE carrera (
 DROP TABLE estudiante_carrera;
 CREATE TABLE estudiante_carrera_backup AS SELECT * FROM estudiante_carrera;
 
--- 1. Eliminar la clave primaria compuesta
+-- 1. Agregar la nueva columna auto-incrementable
+ALTER TABLE estudiante_carrera
+ADD COLUMN id_estudiante_carrera INT FIRST;
+
+-- 2. Eliminar la clave primaria compuesta
 ALTER TABLE estudiante_carrera
 DROP PRIMARY KEY;
--- 2. Agregar la nueva columna autoincrementable
-ALTER TABLE estudiante_carrera
 
-ADD COLUMN id_estudiante_carrera INT NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;
+-- 3. Establecer la nueva clave primaria.
+ALTER TABLE estudiante_carrera
+MODIFY COLUMN id_estudiante_carrera INT NOT NULL AUTO_INCREMENT,
+ADD PRIMARY KEY (id_estudiante_carrera);
+
 CREATE TABLE estudiante_carrera (
     id_carrera INT,
     id_estudiante INT,

@@ -5,15 +5,18 @@ import pandas as pd
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from App.modulos.db_conexion import cliente_mysql
 
-def cargar_data():
+def cargar_data(nombre_archivo):
     base_dir = os.path.dirname(os.path.dirname(__file__))
-    data_path = os.path.join(base_dir, 'data', 'fichas_limpias.xlsx')
-    df_fichas = pd.read_excel(data_path)
+    if nombre_archivo == 'fichas_limpias.xlsx':
+        data_path = os.path.join(base_dir, 'data', 'fichas_limpias.xlsx')
+        df = pd.read_excel(data_path)
 
-    data_path = os.path.join(base_dir, 'data', 'notas_limpias.xlsx')
-    df_notas = pd.read_excel(data_path, dtype={'ci_estudiante': str})
+    else:
+        data_path = os.path.join(base_dir, 'data', 'notas_limpias.xlsx')
+        df = pd.read_excel(data_path, dtype={'ci_estudiante': str})
+        df.rename(columns={'carrera': 'nombres_estudiantes', 'estudiante': 'nombre_carrera'}, inplace=True)
 
-    return df_fichas, df_notas
+    return df
 
 
 def migrar_estudiantes(df_estudiantes):
@@ -150,7 +153,9 @@ def preprocesar_df_estudiantes_carreras(df_fichas, df_notas):
 
 
 def main():
-    df_fichas, df_notas = cargar_data()
+    #df_fichas = cargar_data('fichas_limpias.xlsx')
+    df_notas = cargar_data('notas_limpias.xlsx')
+    
 
     # MIGRACIÓN DE ESTUDIANTES ------------------------------------
     """df_estudiantes = df_fichas[['ci_pasaporte', 'correo_tec', 'nombres', 'sexo','genero','estado_civil','num_hijos',
@@ -167,9 +172,8 @@ def main():
     df_estudiantes_carreras = preprocesar_df_estudiantes_carreras(df_fichas, df_notas)
     migrar_estudiantes_carreras(df_estudiantes_carreras)"""
 
-    # MIGRACIÓN DE ESTUDIANTES_CARRERAS ---------------------------
-    
+    # MIGRACIÓN DE ASIGNATURAS ---------------------------
+    print(df_notas.nombre_carrera.unique().tolist())
 
-    
-    
+
 main()
