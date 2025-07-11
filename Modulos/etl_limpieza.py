@@ -76,11 +76,6 @@ def limpiar_fichas():
     for col in columnas_booleanas:
         df_fichas[col] = df_fichas[col] == "SÍ"
 
-    df_fichas["fecha_nacimiento"] = pd.to_datetime(df_fichas["fecha_nacimiento"], errors='coerce', dayfirst=True)
-    df_fichas["fecha_nacimiento"] = df_fichas["fecha_nacimiento"].fillna(pd.Timestamp.now())
-    df_fichas["fecha_nacimiento"] = df_fichas["fecha_nacimiento"].dt.strftime("%d/%m/%Y")
-
-
     columnas_str = df_fichas.select_dtypes(include=["string", "object"]).columns
     df_fichas[columnas_str] = df_fichas[columnas_str].fillna("DESCONOCIDO")
     
