@@ -31,7 +31,7 @@ CREATE TABLE estudiante (
 -- Tabla: Carrera
 CREATE TABLE carrera (
     id_carrera INT AUTO_INCREMENT PRIMARY KEY,
-    codigo VARCHAR(50) UNIQUE,
+    codigo_carrera VARCHAR(50) UNIQUE,
     nombre_carrera VARCHAR(200)
 );
 
@@ -41,8 +41,6 @@ CREATE TABLE estudiante_carrera (
     id_carrera INT,
     id_estudiante INT,
     ciclo_carrera VARCHAR(20),
-    razon_eleccion_carrera TEXT,
-    razon_eleccion_instituto TEXT,
     periodo_academico VARCHAR(20),
     paralelo VARCHAR(11),
     FOREIGN KEY (id_carrera) REFERENCES carrera(id_carrera),
