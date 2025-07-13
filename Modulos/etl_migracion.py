@@ -26,6 +26,7 @@ def migrar_estudiantes():
                                      "tiene_beca","estudio_otra_carrera",
                                      "ocupacion_estudiante","persona_cubre_gastos",
                                      "recibe_ayuda"]]
+    df_estudiantes = df_estudiantes.replace({np.nan: None})
     crear_estudiantes(df_estudiantes)
     
 def agregar_columnas_extras_ficha():
@@ -37,7 +38,7 @@ def agregar_columnas_extras_ficha():
 def migrar_colegios():
     df_colegios = agregar_columnas_extras_ficha()
     df_colegios = df_colegios[["id_estudiante", "nombre_colegio", "tipo_colegio","titulo_bachiller","anio_graduacion"]]
-
+    df_colegios = df_colegios.replace({np.nan: None})
     crear_estudiantes_colegio(df_colegios)
 
 
@@ -45,21 +46,21 @@ def migrar_colegios():
 def migrar_propiedades_extras():
     df_propiedades = agregar_columnas_extras_ficha()
     df_propiedades = df_propiedades[["id_estudiante", "num_propiedades", "valor_propiedades", "num_vehiculos", "valor_vehiculos"]]                                
-
+    df_propiedades = df_propiedades.replace({np.nan: None})
     crear_propiedades_extra(df_propiedades)
 
 
 def migrar_economia():
     df_economia = agregar_columnas_extras_ficha()
     df_economia = df_economia[["id_estudiante", "total_ingresos", "total_egresos"]]                                
-
+    df_economia = df_economia.replace({np.nan: None})
     crear_economia_estudiante(df_economia)
 
 
 def migrar_contacto_emergencia():
     df_contacto_emergencia = agregar_columnas_extras_ficha()
     df_contacto_emergencia = df_contacto_emergencia[["id_estudiante", "nombre_contacto", "telefono_contacto"]]                                
-
+    df_contacto_emergencia = df_contacto_emergencia.replace({np.nan: None})
     crear_contacto_emergencia(df_contacto_emergencia)
 
 
@@ -103,6 +104,7 @@ def migrar_vivienda():
 def migrar_carreras():
     df_carreras = cargar_data(os.path.join(BASE_DIR, "data", "notas_limpias_final.xlsx"))
     df_carreras = df_carreras[["codigo_carrera", "nombre_carrera"]]
+    df_carreras = df_carreras.replace({np.nan: None})
     crear_carreras(df_carreras)
 
 
@@ -111,7 +113,7 @@ def agregar_columnas_extras_nota():
 
     df["id_estudiante"]=df["ci_pasaporte"].map(obtener_id_ci_estudiante())
     df["id_carrera"]=df["codigo_carrera"].map(obtener_id_codigo_carrera())
-
+    
     return df
 
 
