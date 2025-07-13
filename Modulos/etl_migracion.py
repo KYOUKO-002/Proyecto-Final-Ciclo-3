@@ -2,8 +2,9 @@ import pandas as pd
 import numpy as np
 import os
 from db_mysql_crud import crear_estudiantes, crear_estudiantes_colegio, crear_propiedades_extra, crear_economia_estudiante
-from db_mysql_crud import crear_contacto_emergencia, crear_datos_salud, crear_familia, crear_vivienda
-from db_mysql_consultas import obtener_id_ci_estudiante
+from db_mysql_crud import crear_contacto_emergencia, crear_datos_salud, crear_familia, crear_vivienda, crear_carreras
+from db_mysql_crud import crear_estudiantes_carreras, crear_asignaturas, crear_estudiantes_asignaturas 
+from db_mysql_consultas import obtener_id_ci_estudiante, obtener_id_codigo_carrera, obtener_id_nombre_asignaturas, obtener_id_por_columnas_aux_estudiante_carrera 
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -99,4 +100,84 @@ def migrar_vivienda():
     crear_vivienda(df_vivienda)
 
 
-migrar_vivienda()
+def migrar_carreras():
+    df_carreras = cargar_data(os.path.join(BASE_DIR, "data", "notas_limpias_final.xlsx"))
+    df_carreras = df_carreras[["codigo_carrera", "nombre_carrera"]]
+    crear_carreras(df_carreras)
+
+
+def agregar_columnas_extras_nota():
+    df = cargar_data(os.path.join(BASE_DIR, "data", "notas_limpias_final.xlsx"))
+
+    df["id_estudiante"]=df["ci_pasaporte"].map(obtener_id_ci_estudiante())
+    df["id_carrera"]=df["codigo_carrera"].map(obtener_id_codigo_carrera())
+
+    return df
+
+
+def migrar_estudiantes_carreras():
+    df_estudiantes_carreras = agregar_columnas_extras_nota()
+
+    df_estudiantes_carreras = df_estudiantes_carreras[[
+        "id_carrera", "id_estudiante", "ciclo_carrera", 
+        "periodo_academico", "paralelo"
+    ]]
+
+    df_estudiantes_carreras = df_estudiantes_carreras.drop_duplicates(
+        subset=["id_carrera", "id_estudiante", "periodo_academico"]
+    )
+
+    
+    df_estudiantes_carreras = df_estudiantes_carreras.replace({np.nan: None})
+
+    crear_estudiantes_carreras(df_estudiantes_carreras)
+    
+
+def migrar_asignaturas():
+    df_asignaturas = agregar_columnas_extras_nota()
+
+    df_asignaturas = df_asignaturas[[
+        "id_carrera", "nombre_asignatura"
+    ]]
+
+    df_asignaturas = df_asignaturas.replace({np.nan: None})
+
+    crear_asignaturas(df_asignaturas)
+
+
+
+def migrar_estudiante_asignatura():
+    df_estudiante_asignatura = agregar_columnas_extras_nota()
+
+    df_estudiante_asignatura = df_estudiante_asignatura[[
+        "id_carrera", "id_estudiante", "periodo_academico", "nombre_asignatura",
+        "numero_matricula", "porcentaje_asistencia",
+        "nota_final", "estado_estudiante", "estado_matricula", "tipo_ingreso"
+    ]]
+
+    df_estudiante_asignatura["id_carrera"]= df_estudiante_asignatura["id_carrera"].fillna("0").astype(int)
+    df_estudiante_asignatura["id_estudiante"]= df_estudiante_asignatura["id_estudiante"].fillna("0").astype(int)
+
+
+    df_estudiante_asignatura["aux_estudiante_carrera"] = (
+        df_estudiante_asignatura["id_carrera"].astype(str) + "-" +
+        df_estudiante_asignatura["id_estudiante"].astype(str) + "-" +
+        df_estudiante_asignatura["periodo_academico"].astype(str)
+    )
+
+    
+    df_estudiante_asignatura["id_asignatura"] = df_estudiante_asignatura["nombre_asignatura"].map(obtener_id_nombre_asignaturas())
+
+    df_estudiante_asignatura["id_estudiante_carrera"] = df_estudiante_asignatura["aux_estudiante_carrera"].map(obtener_id_por_columnas_aux_estudiante_carrera())
+
+    df_estudiante_asignatura["id_estudiante_carrera"] = df_estudiante_asignatura["id_estudiante_carrera"].fillna("0").astype(int)
+
+    df_estudiante_asignatura = df_estudiante_asignatura.drop(
+        columns=["id_carrera", "id_estudiante", "periodo_academico", "nombre_asignatura"]
+    )
+
+    df_estudiante_asignatura = df_estudiante_asignatura.replace({np.nan: None})
+    crear_estudiantes_asignaturas(df_estudiante_asignatura)
+
+migrar_estudiante_asignatura()
+

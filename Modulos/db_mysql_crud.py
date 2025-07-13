@@ -179,17 +179,82 @@ def crear_carreras(df_carreras):
     cursor = cliente.cursor()
     
     columnas = [
-        "id_estudiante", "tipo_vivienda", "condicion_vivienda", "servicios_vivienda"
+        "codigo_carrera", "nombre_carrera"
     ]
 
-    sql= f"INSERT IGNORE INTO vivienda({','.join(columnas)}) VALUES ({','.join(['%s'] * len(columnas))})"
-    valores = df_vivienda[columnas].values.tolist()
+    sql= f"INSERT IGNORE INTO carrera({','.join(columnas)}) VALUES ({','.join(['%s'] * len(columnas))})"
+    valores = df_carreras[columnas].values.tolist()
     try:
         cursor.executemany(sql, valores)
         cliente.commit()
     except Exception as e:
-        print(f"Error al insertar datos de vivienda: {e}")
+        print(f"Error al insertar datos de carrera: {e}")
         cliente.rollback()
     finally:
         cursor.close()
         cliente.close()
+
+
+def crear_estudiantes_carreras(df_carreras):
+    cliente = obtener_cliente_mysql()
+    cursor = cliente.cursor()
+    
+    columnas = [
+        "id_carrera", "id_estudiante", "ciclo_carrera", 
+                                                       "periodo_academico", "paralelo"
+    ]
+
+    sql= f"INSERT IGNORE INTO estudiante_carrera({','.join(columnas)}) VALUES ({','.join(['%s'] * len(columnas))})"
+    valores = df_carreras[columnas].values.tolist()
+    try:
+        cursor.executemany(sql, valores)
+        cliente.commit()
+    except Exception as e:
+        print(f"Error al insertar datos de estudiante_carrera: {e}")
+        cliente.rollback()
+    finally:
+        cursor.close()
+        cliente.close()
+
+
+def crear_asignaturas(df_asignaturas):
+    cliente = obtener_cliente_mysql()
+    cursor = cliente.cursor()
+    
+    columnas = [
+        "id_carrera", "nombre_asignatura"
+    ]
+
+    sql= f"INSERT IGNORE INTO asignatura({','.join(columnas)}) VALUES ({','.join(['%s'] * len(columnas))})"
+    valores = df_asignaturas[columnas].values.tolist()
+    try:
+        cursor.executemany(sql, valores)
+        cliente.commit()
+    except Exception as e:
+        print(f"Error al insertar datos de asignatura: {e}")
+        cliente.rollback()
+    finally:
+        cursor.close()
+        cliente.close()        
+
+
+def crear_estudiantes_asignaturas(df_estudiantes_asignaturas):
+    cliente = obtener_cliente_mysql()
+    cursor = cliente.cursor()
+    
+    columnas = [
+        "id_estudiante_carrera", "id_asignatura","numero_matricula", "porcentaje_asistencia",
+        "nota_final", "estado_estudiante", "estado_matricula", "tipo_ingreso"
+    ]
+
+    sql= f"INSERT IGNORE INTO estudiante_asignatura({','.join(columnas)}) VALUES ({','.join(['%s'] * len(columnas))})"
+    valores = df_estudiantes_asignaturas[columnas].values.tolist()
+    try:
+        cursor.executemany(sql, valores)
+        cliente.commit()
+    except Exception as e:
+        print(f"Error al insertar datos de estudiantes_asignatura: {e}")
+        cliente.rollback()
+    finally:
+        cursor.close()
+        cliente.close()        
