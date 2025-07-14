@@ -65,7 +65,7 @@ def limpiar_fichas():
     
     columnas_enteras = ["num_hijos", "anio_graduacion", "num_propiedades", "num_vehiculos", "semanas_embarazo"]
     columnnas_flotantes =["valor_propiedades", "valor_vehiculos", "total_ingresos", "total_egresos", "porcentaje_discapacidad"]
-    columnas_booleanas = ["tiene_beca","estudio_otra_carrera","recibe_ayuda"]
+    columnas_booleanas = ["tiene_beca","estudio_otra_carrera","recibe_ayuda","tiene_carnet_conadis"]
 
     for col in columnas_enteras:
         df_fichas[col] = df_fichas[col].str.replace(r"[^0-9]", "", regex=True).replace("",np.nan).fillna(0).astype(int)
@@ -95,4 +95,4 @@ def limpiar_fichas():
 
 
 limpiar_fichas()
-limpiar_notas()    
+#limpiar_notas()    

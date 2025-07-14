@@ -9,7 +9,7 @@ def obtener_cliente_mysql():
             host='localhost',
             database='FichasNotasDB',
             user='root',
-            password=''
+            password='1234'
         )
         if conexion.is_connected():
             print("Conexión exitosa a la base de datos MySQL")

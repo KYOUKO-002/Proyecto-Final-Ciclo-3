@@ -116,7 +116,7 @@ def crear_datos_salud(df_datos_salud):
     
     columnas = [
         "id_estudiante", "tipo_sangre", "semanas_embarazo", "porcentaje_discapacidad", "nombre_discapacidad", 
-        "nombre_enfermedades", "vacuna_covid", "antecedentes_patologicos_fam"
+        "nombre_enfermedades", "vacuna_covid", "antecedentes_patologicos_fam", "tiene_carnet_conadis"
     ]
 
     sql= f"INSERT IGNORE INTO datos_salud({','.join(columnas)}) VALUES ({','.join(['%s'] * len(columnas))})"
