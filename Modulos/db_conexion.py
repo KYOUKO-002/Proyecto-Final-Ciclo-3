@@ -1,6 +1,7 @@
 import mysql.connector
 from mysql.connector import Error
 
+
 def obtener_cliente_mysql():
     """Establece una conexión a la base de datos MySQL y devuelve el objeto de conexión."""
     try:
@@ -8,7 +9,7 @@ def obtener_cliente_mysql():
             host='localhost',
             database='FichasNotasDB',
             user='root',
-            password='1234'
+            password=''
         )
         if conexion.is_connected():
             print("Conexión exitosa a la base de datos MySQL")
