@@ -67,7 +67,7 @@ def migrar_contacto_emergencia():
 def migrar_datos_salud():
     df_datos_salud = agregar_columnas_extras_ficha()
     df_datos_salud = df_datos_salud[["id_estudiante", "tipo_sangre", "semanas_embarazo", "porcentaje_discapacidad", "nombre_discapacidad", 
-        "nombre_enfermedades", "vacuna_covid", "antecedentes_patologicos_fam"]]
+        "nombre_enfermedades", "vacuna_covid", "antecedentes_patologicos_fam", "tiene_carnet_conadis"]]
 
     df_datos_salud = df_datos_salud.replace({np.nan: None})                                
 
@@ -181,5 +181,5 @@ def migrar_estudiante_asignatura():
     df_estudiante_asignatura = df_estudiante_asignatura.replace({np.nan: None})
     crear_estudiantes_asignaturas(df_estudiante_asignatura)
 
-migrar_estudiante_asignatura()
+migrar_datos_salud()
 
